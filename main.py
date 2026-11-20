@@ -1,6 +1,8 @@
 import tkinter
 from tkinter import ttk
 from tkinter import messagebox
+import os
+import openpyxl
 
 
 def enter_data():
@@ -26,6 +28,23 @@ def enter_data():
             print("# Courses: ", numcourses, "# Semesters: ", numsemesters)
             print("Registration status: ", registration_status)
             print("-------------------------------------------")
+
+            filepath = r"C:\Users\kakut\OneDrive\Documents\GitHub\GUI_tutorial-\data.xlsx"
+            
+            if not os.path.exists(filepath):
+                workbook = openpyxl.Workbook()
+                sheet = workbook.active
+                heading = ["First Name", "Last Name", "Title", "Age", "Nationality",
+                           "# Courses", "#Semesters", "Registration Status"]
+                sheet.append(heading)
+                workbook.save(filepath)
+            workbook = openpyxl.load_workbook(filepath)
+            sheet = workbook.active
+            sheet.append([firstname, lastname, title, age, nationality, numcourses,
+                          numsemesters, registration_status])
+            workbook.save(filepath)
+
+
         else:
             tkinter.messagebox.showwarning(title = "Error", message= "First name and Last name are required.")
             
